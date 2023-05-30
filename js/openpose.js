@@ -33,22 +33,6 @@ const connect_color = [
 	[255,   0,  85]
 ]
 
-const openpose_obj = {
-	// width, height
-	resolution: [512, 512],
-	// fps...?
-	fps: 1,
-	// frames
-	frames: [
-		{
-			frame_current: 1,
-			// armatures
-			armatures: {
-			},
-		}
-	]
-}
-
 const DEFAULT_KEYPOINTS = [
   [241,  77], [241, 120], [191, 118], [177, 183],
   [163, 252], [298, 118], [317, 182], [332, 245],
@@ -156,20 +140,6 @@ class OpenPosePanel {
         this.fileInput.style.display = "none";
         this.fileInput.addEventListener("change", this.onLoad.bind(this))
 
-		this.resizeCanvas(openpose_obj.resolution[0], openpose_obj.resolution[1])
-
-        if (this.node.properties.savedPose) {
-            const error = this.loadJSON(this.node.properties.savedPose);
-            if (error) {
-                console.error("[OpenPose Editor] Failed to restore saved pose JSON", error)
-                this.setPose(DEFAULT_KEYPOINTS)
-            }
-            this.undo_history.push(JSON.stringify(this.canvas));
-        }
-        else {
-            this.setPose(DEFAULT_KEYPOINTS)
-        }
-
 		this.panel.addButton("Add", () => {
             this.addPose()
             this.saveToNode();
@@ -184,6 +154,60 @@ class OpenPosePanel {
         });
 		this.panel.addButton("Save", () => this.save());
 		this.panel.addButton("Load", () => this.load());
+
+		const widthLabel = document.createElement("label")
+		widthLabel.innerHTML = "Width"
+		widthLabel.style.fontFamily = "Arial"
+		widthLabel.style.padding = "0 0.5rem";
+		widthLabel.style.color = "#ccc";
+		this.widthInput = document.createElement("input")
+		this.widthInput.style.background = "#1c1c1c";
+		this.widthInput.style.color = "#aaa";
+		this.widthInput.setAttribute("type", "number")
+		this.widthInput.setAttribute("min", "64")
+		this.widthInput.setAttribute("max", "4096")
+		this.widthInput.setAttribute("step", "64")
+		this.widthInput.setAttribute("type", "number")
+		this.widthInput.addEventListener("change", () => {
+			this.resizeCanvas(+this.widthInput.value, +this.heightInput.value);
+			this.saveToNode();
+		})
+
+		const heightLabel = document.createElement("label")
+		heightLabel.innerHTML = "Height"
+		heightLabel.style.fontFamily = "Arial"
+		heightLabel.style.padding = "0 0.5rem";
+		heightLabel.style.color = "#aaa";
+		this.heightInput = document.createElement("input")
+		this.heightInput.style.background = "#1c1c1c";
+		this.heightInput.style.color = "#ccc";
+		this.heightInput.setAttribute("type", "number")
+		this.heightInput.setAttribute("min", "64")
+		this.heightInput.setAttribute("max", "4096")
+		this.heightInput.setAttribute("step", "64")
+		this.heightInput.addEventListener("change", () => {
+			this.resizeCanvas(+this.widthInput.value, +this.heightInput.value);
+			this.saveToNode();
+		})
+
+		this.panel.footer.appendChild(widthLabel);
+		this.panel.footer.appendChild(this.widthInput);
+		this.panel.footer.appendChild(heightLabel);
+		this.panel.footer.appendChild(this.heightInput);
+
+        if (this.node.properties.savedPose) {
+            const error = this.loadJSON(this.node.properties.savedPose);
+            if (error) {
+                console.error("[OpenPose Editor] Failed to restore saved pose JSON", error)
+				this.resizeCanvas(this.canvasWidth, this.canvasHeight)
+                this.setPose(DEFAULT_KEYPOINTS)
+            }
+            this.undo_history.push(JSON.stringify(this.canvas));
+        }
+        else {
+			this.resizeCanvas(this.canvasWidth, this.canvasHeight)
+            this.setPose(DEFAULT_KEYPOINTS)
+        }
 
 		const keyHandler = this.onKeyDown.bind(this);
 
@@ -320,6 +344,9 @@ class OpenPosePanel {
 
         this.canvasWidth = width;
         this.canvasHeight = height;
+
+		this.widthInput.value = `${width}`
+		this.heightInput.value = `${height}`
 
         this.canvas.setWidth(width);
         this.canvas.setHeight(height);

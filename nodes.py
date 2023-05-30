@@ -25,5 +25,5 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "Nui.OpenPoseEditor": "OpenPoseEditor",
+    "Nui.OpenPoseEditor": "OpenPose Editor",
 }
