@@ -1,6 +1,6 @@
 # OpenPose Editor for ComfyUI
 
-A port of the [openpose-editor](https://github.com/fkunn1326/openpose-editor) extension for stable-diffusion-webui, now for [ComfyUI](https://github.com/comfyanonymous/ComfyUI)
+A port of the [openpose-editor](https://github.com/fkunn1326/openpose-editor) extension for stable-diffusion-webui, now compatible with [ComfyUI](https://github.com/comfyanonymous/ComfyUI)
 
 ![Screenshot](./screenshot.png)
 
