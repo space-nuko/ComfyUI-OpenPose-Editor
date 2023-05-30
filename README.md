@@ -2,7 +2,10 @@
 
 A port of the [openpose-editor](https://github.com/fkunn1326/openpose-editor) extension for stable-diffusion-webui, now compatible with [ComfyUI](https://github.com/comfyanonymous/ComfyUI)
 
-![Screenshot](./screenshot.png)
+**NOTE**: Requires [this ComfyUI patch](https://github.com/comfyanonymous/ComfyUI/pull/711) to work correctly
+
+![Screenshot](./screenshot1.png)
+![Screenshot](./screenshot2.png)
 
 ## Usage
 
