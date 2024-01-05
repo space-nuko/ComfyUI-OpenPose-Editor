@@ -91,8 +91,13 @@ class OpenPosePanel {
         const height = 1000;
         this.panel.style.width = `${width}px`;
         this.panel.style.height = `${height}px`;
-        this.panel.style.left = `calc(50% - ${width/4}px)`
-        this.panel.style.top = `calc(50% - ${height/4}px)`
+        this.panel.style.top = "50%"
+        this.panel.style.left = "50%";
+        this.panel.style.transform = "translate(-50%, -50%)";
+        this.panel.style.marginTop = "unset";
+        this.panel.style.marginLeft = "unset";
+        this.panel.style.maxHeight = "100vh";
+        this.panel.style.maxWidth = "100vw";
 
 		const rootHtml = `
 <canvas class="openpose-editor-canvas" />
